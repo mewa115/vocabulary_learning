@@ -7,7 +7,8 @@ import UI as ui
 
 
 
-ui.submit()
+ui.input_var
+
 
 
 

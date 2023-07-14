@@ -9,6 +9,17 @@ def get_input(event=None):  # add an optional event argument
     user_input = input_var.get()
     print(user_input)  # do something with the input
 
+def submit():
+    # get the input from the Entry field
+    entered_value = input_entry.get()
+
+    if input_entry.lower() == stored_fruit:
+        messagebox.showinfo("Correct!")
+    else:
+        messagebox.showinfo("Wrong!")
+
+
+
 root = Tk()
 
 # Set the window title here
@@ -31,6 +42,10 @@ root.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
 input_var = StringVar()
 
+input_label = Label(root, text="1/"+ str(), font=("Arial", 20, "bold"))
+input_label.pack(padx=5, pady=5)  # Add padding
+
+
 input_label = Label(root, text="Provide the translation for the word:")
 input_label.pack(padx=5, pady=15)  # Add padding
 
@@ -42,8 +57,8 @@ input_label.pack(padx=5, pady=5)  # Add padding
 input_entry = Entry(root, textvariable=input_var)
 input_entry.pack(padx=20, pady=20)  # Add padding
 
-submit_button = Button(root, text="Submit", command=get_input)
-submit_button.pack(padx=20, pady=20)  # Add padding
+submit_button = tk.Button(root, text="Submit", command=submit)
+submit_button.pack()
 
 root.bind('<Return>', get_input)
 
