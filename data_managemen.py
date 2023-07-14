@@ -2,9 +2,8 @@ import pandas as pd
 import csv
 import random
 
-current_lesson = list()
 
-def return_the_words_for_the_lesson():
+def the_words_for_the_lesson():
 # Read the CSV file into a dataframe
     df = pd.read_csv('Saved translations.csv')
 # create columns in the dataframe
@@ -34,6 +33,8 @@ def return_the_words_for_the_lesson():
         i = i + 1
 
 
+    current_lesson = list()
+
 # find the tranlsation using the index, which was generated randomly.
 #    print(random_numbers_list)
     for each in random_numbers_list:
@@ -46,6 +47,3 @@ def return_the_words_for_the_lesson():
         i = i + 1
 
     return(current_lesson)
-
-
-return_the_words_for_the_lesson()

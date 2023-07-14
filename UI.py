@@ -3,40 +3,48 @@ import data_managemen as dm
 import verify_the_input as vi
 
 
+from tkinter import Tk, Entry, Button, Label, StringVar
 
-def submit():
-    user_input = input_field.get()
-    return(user_input)
+def get_input(event=None):  # add an optional event argument
+    user_input = input_var.get()
+    print(user_input)  # do something with the input
 
-#    result = user_input  # Replace backend_function with your actual backend logic
-#    result_label.config(text=": " + result)
+root = Tk()
 
+# Set the window title here
+root.title("My Application")
 
+# Set the window size (width x height)
+window_width = 400
+window_height = 400
 
+# Get screen width and height
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
 
+# Calculate position coordinates
+position_top = int(screen_height / 2 - window_height / 2)
+position_right = int(screen_width / 2 - window_width / 2)
 
-# Create the main window
-window = tk.Tk()
-window.title("Let's Learn New Words")
+# Position the window in the center of the screen
+root.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
-# Pick up the words for the current lesson
-dm.return_the_words_for_the_lesson()
+input_var = StringVar()
 
-# Create the result label at the top
-result_label = tk.Label(window, text="Translate the word: ")
-result_label.pack(padx=10, pady=10)
+input_label = Label(root, text="Provide the translation for the word:")
+input_label.pack(padx=5, pady=15)  # Add padding
 
-# Create the input field with margins
-input_field = tk.Entry(window)
-input_field.pack(padx=10, pady=10)
+words = dm.the_words_for_the_lesson()
 
-# Create the submit button with margins
-submit_button = tk.Button(window, text="Verify", command=submit)
-submit_button.pack(padx=10, pady=10)
+input_label = Label(root, text=words[2][2], font=("Arial", 16, "bold"))
+input_label.pack(padx=5, pady=5)  # Add padding
 
-# Create the section to display the output with margins
-output_section = tk.Label(window)
-output_section.pack(padx=10, pady=10)
+input_entry = Entry(root, textvariable=input_var)
+input_entry.pack(padx=20, pady=20)  # Add padding
 
-# Start the main loop
-window.mainloop()
+submit_button = Button(root, text="Submit", command=get_input)
+submit_button.pack(padx=20, pady=20)  # Add padding
+
+root.bind('<Return>', get_input)
+
+root.mainloop()
