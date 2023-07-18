@@ -9,6 +9,8 @@ import UI as ui
 
 ui.input_var
 
+print(ui.input_var)
+
 
 
 
