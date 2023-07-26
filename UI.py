@@ -1,21 +1,22 @@
 import tkinter as tk
 import data_managemen as dm
 import verify_the_input as vi
-
-
 from tkinter import Tk, Entry, Button, Label, StringVar
+import data_managemen as dm
+
+
+i=0
 
 def get_input(event=None):  # add an optional event argument
     user_input = input_var.get()
     print(user_input)  # do something with the input
 
+
 def submit():
     # get the input from the Entry field
     entered_value = input_entry.get()
-
-    if input_entry.lower() == stored_fruit:
+    if entered_value.lower() == stored_fruit:
         messagebox.showinfo("Correct!")
-    else:
         messagebox.showinfo("Wrong!")
 
 
@@ -23,7 +24,7 @@ def submit():
 root = Tk()
 
 # Set the window title here
-root.title("My Application")
+root.title("Let's Learn English Words")
 
 # Set the window size (width x height)
 window_width = 400
@@ -42,9 +43,8 @@ root.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
 input_var = StringVar()
 
-input_label = Label(root, text="1/"+ str(), font=("Arial", 20, "bold"))
+input_label = Label(root, text= str(i+1) + "/10", font=("Arial", 20, "bold"))
 input_label.pack(padx=5, pady=5)  # Add padding
-
 
 input_label = Label(root, text="Provide the translation for the word:")
 input_label.pack(padx=5, pady=15)  # Add padding
@@ -63,3 +63,10 @@ submit_button.pack()
 root.bind('<Return>', get_input)
 
 root.mainloop()
+
+
+
+
+
+
+
