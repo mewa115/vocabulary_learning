@@ -35,6 +35,7 @@ removed_duplicates = original_rows - df.shape[0]
 print(f'Removed {removed_duplicates} duplicates')
 
 
+
 column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_right_answers']
 # Load your data and specify column names
 df = pd.read_csv('your_file.csv', names=column_names, header=0)
