@@ -21,10 +21,8 @@ df_remove_duplicate = pd.read_csv('Saved translations.csv')
 # Split the data into two dataframes
 # df1 contains rows with non-empty values in the 4th column
 df1 = df_remove_duplicate[df_remove_duplicate[df_remove_duplicate.columns[4]].notna()]
-print(df1)
 # df2 contains rows with empty values in the 4th column
 df2 = df_remove_duplicate[df_remove_duplicate[df_remove_duplicate.columns[4]].isna()]
-print(df2)
 # Remove duplicates in df2 based on the 3rd column
 df2 = df2.drop_duplicates(subset=df_remove_duplicate.columns[2])
 # Concatenate df1 and df2 to get the final dataframe
@@ -35,6 +33,11 @@ df.to_csv('Saved translations.csv', index=False)
 # Calculate and print the number of removed duplicates
 removed_duplicates = original_rows - df.shape[0]
 print(f'Removed {removed_duplicates} duplicates')
+
+
+column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_right_answers']
+# Load your data and specify column names
+df = pd.read_csv('your_file.csv', names=column_names, header=0)
 
 
 def the_words_for_the_lesson():
