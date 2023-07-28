@@ -1,22 +1,40 @@
 import pandas as pd
-import numpy as np
-import csv
 import random
 
+
+original_file = 'Saved_translations_orig.csv'
+copy_file = 'Saved_translations_copy.csv'
+
+
 # load the CSV file
-df_add_new_column_if_doesnt_exist = pd.read_csv('Saved translations.csv')
+df_add_new_column_if_doesnt_exist = pd.read_csv(original_file, header=None, index_col=False)
 # Check if the column exists
 if 'number_of_right_answers' not in df_add_new_column_if_doesnt_exist.columns:
-    # Add a new column
-    df_add_new_column_if_doesnt_exist[
-        'number_of_right_answers'] = None  # this will add a new column with all values set to "default_value"
+    # this will add a new column with all values set to "default_value"
+    df_add_new_column_if_doesnt_exist['number_of_right_answers'] = None
 # Save the DataFrame to CSV
-df_add_new_column_if_doesnt_exist.to_csv('Saved translations.csv', index=False)
+df_add_new_column_if_doesnt_exist.to_csv(copy_file, index=False, header=False)
+
+
+def check_if_indexes__are_present():
+    # Load the CSV file into a DataFrame
+    df = pd.read_csv(original_file)
+    # Check for index column
+    if 'Unnamed: 0' in df.columns:
+        print("CSV file has an index column.")
+    else:
+        print("CSV file has NO index column.")
+
+    # Check for index row by comparing the data frame index to a range from 0 to length of the data frame
+    if not all(df.index == range(0, len(df))):
+        print("CSV file has an index row.")
+    else:
+        print("CSV file has NO index row.")
 
 # Store the original number of rows
 original_rows = df_add_new_column_if_doesnt_exist.shape[0]
 
-df_remove_duplicate = pd.read_csv('Saved translations.csv')
+df_remove_duplicate = pd.read_csv(copy_file, header=None)
 # remove duplicated rows based on the 3rd column
 # Split the data into two dataframes
 # df1 contains rows with non-empty values in the 4th column
@@ -28,21 +46,21 @@ df2 = df2.drop_duplicates(subset=df_remove_duplicate.columns[2])
 # Concatenate df1 and df2 to get the final dataframe
 df = pd.concat([df1, df2])
 # Write the updated dataframe to a new CSV file
-df.to_csv('Saved translations.csv', index=False)
+df.to_csv(copy_file, index=False, header=False)
+
 
 # Calculate and print the number of removed duplicates
 removed_duplicates = original_rows - df.shape[0]
 print(f'Removed {removed_duplicates} duplicates')
 
 
-
-column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_right_answers']
+#column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_right_answers']
 # Load your data and specify column names
-df = pd.read_csv('your_file.csv', names=column_names, header=0)
+#df = pd.read_csv('Saved translations.csv', names=column_names, header=0)
 
 
 def the_words_for_the_lesson():
-    dataframe = pd.read_csv('Saved translations.csv')
+    df = pd.read_csv(copy_file)
     list_dictionary = df.values.tolist()
 
     # construct a dictionary where the second element of each sub-list is the key
@@ -73,3 +91,5 @@ def the_words_for_the_lesson():
     while i < 10:
         i = i + 1
     return current_lesson
+
+
