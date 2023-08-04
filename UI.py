@@ -1,25 +1,22 @@
 import tkinter as tk
 import data_managemen as dm
 import verify_the_input as vi
-from tkinter import Tk, Entry, Button, Label, StringVar
+from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 import data_managemen as dm
 
-
-i=0
-
-def get_input(event=None):  # add an optional event argument
-    user_input = input_var.get()
-    print(user_input)  # do something with the input
+i = 0
+current_lesson = dm.the_words_for_the_lesson()
+print(current_lesson)
+print(current_lesson[i][2])
 
 
 def submit():
     # get the input from the Entry field
     entered_value = input_entry.get()
-    if entered_value.lower() == stored_fruit:
+    if entered_value.lower() == current_lesson[i][2]:
         messagebox.showinfo("Correct!")
-        messagebox.showinfo("Wrong!")
-
-
+    else:
+        messagebox.showinfo('The right translation is ', current_lesson[i][2])
 
 root = Tk()
 
@@ -43,16 +40,17 @@ root.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
 input_var = StringVar()
 
-input_label = Label(root, text= str(i+1) + "/10", font=("Arial", 20, "bold"))
-input_label.pack(padx=5, pady=5)  # Add padding
+while i < 9:
+    # this block controls the sequence, e.g. 1/10, 2/10 etc.
+    input_label = Label(root, text = str(i+1) + "/10", font=("Arial", 20, "bold"))
+    input_label.pack(padx=5, pady=5)  # Add padding
+
+# This controls the word for which I need to provide the translation
+    input_label = Label(root, text=current_lesson[i][2], font=("Arial", 16, "bold"))
+    input_label.pack(padx=5, pady=5)  # Add padding
 
 input_label = Label(root, text="Provide the translation for the word:")
 input_label.pack(padx=5, pady=15)  # Add padding
-
-words = dm.the_words_for_the_lesson()
-
-input_label = Label(root, text=words[2][2], font=("Arial", 16, "bold"))
-input_label.pack(padx=5, pady=5)  # Add padding
 
 input_entry = Entry(root, textvariable=input_var)
 input_entry.pack(padx=20, pady=20)  # Add padding
@@ -60,7 +58,7 @@ input_entry.pack(padx=20, pady=20)  # Add padding
 submit_button = tk.Button(root, text="Submit", command=submit)
 submit_button.pack()
 
-root.bind('<Return>', get_input)
+#root.bind('<Return>', get_input)
 
 root.mainloop()
 
