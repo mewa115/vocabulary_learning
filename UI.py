@@ -6,17 +6,17 @@ import data_managemen as dm
 
 counter = 0
 
-
 current_lesson = dm.the_words_for_the_lesson()
+
 
 def action_on_submit():
     global counter
-    entered_value = input_entry.get()
+    entered_value = input_field.get()
     if entered_value.lower() == current_lesson[counter][3]:
         messagebox.showinfo("Correct!")
     else:
         messagebox.showinfo('The right translation is ', current_lesson[counter][3])
-    counter_label.set(str(counter + 1) + "/10".format(counter))
+    sequence.set(str(counter + 1) + "/10".format(counter))
     if counter >= 10:
         print("Lesson is over")
 
@@ -44,8 +44,8 @@ root.title("Let's Learn English Words")
 window = MainWindow(root)
 
 # Set the placeholder for the counter of the word to be translated, e.g. 1/10, 2/10 etc.
-sequence_counter = Label(root, text=str(counter + 1) + "/10", font=("Arial", 20, "bold"))
-sequence_counter.pack(padx=10, pady=10)  # Add padding
+sequence = Label(root, text=str(counter + 1) + "/10", font=("Arial", 20, "bold"))
+sequence.pack(padx=10, pady=10)  # Add padding
 
 # Set the placeholder for the word to be translated
 word_to_translate = Label(root, text=current_lesson[counter][2], font=("Arial", 16, "bold"))
