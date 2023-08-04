@@ -8,7 +8,6 @@ counter = 0
 
 current_lesson = dm.the_words_for_the_lesson()
 
-
 def action_on_submit():
     global counter
     entered_value = input_field.get()
