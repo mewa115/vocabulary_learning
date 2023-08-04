@@ -4,67 +4,64 @@ import verify_the_input as vi
 from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 import data_managemen as dm
 
-i = 0
+counter = 0
+
+
 current_lesson = dm.the_words_for_the_lesson()
-print(current_lesson)
-print(current_lesson[i][2])
 
-
-def submit():
-    # get the input from the Entry field
+def action_on_submit():
+    global counter
     entered_value = input_entry.get()
-    if entered_value.lower() == current_lesson[i][2]:
+    if entered_value.lower() == current_lesson[counter][3]:
         messagebox.showinfo("Correct!")
     else:
-        messagebox.showinfo('The right translation is ', current_lesson[i][2])
+        messagebox.showinfo('The right translation is ', current_lesson[counter][3])
+    counter_label.set(str(counter + 1) + "/10".format(counter))
+    if counter >= 10:
+        print("Lesson is over")
 
-root = Tk()
+    counter += 1
 
+
+class MainWindow:
+    def __init__(self, root, width=400, height=400):
+        self.root = root
+        # Get screen width and height
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        # Calculate position coordinates
+        position_top = int(screen_height / 2 - height / 2)
+        position_right = int(screen_width / 2 - width / 2)
+        # Position the window in the center of the screen and set the size
+        root.geometry(f"{width}x{height}+{position_right}+{position_top}")
+
+
+# Create the main window
+root = tk.Tk()
 # Set the window title here
 root.title("Let's Learn English Words")
 
-# Set the window size (width x height)
-window_width = 400
-window_height = 400
+window = MainWindow(root)
 
-# Get screen width and height
-screen_width = root.winfo_screenwidth()
-screen_height = root.winfo_screenheight()
+# Set the placeholder for the counter of the word to be translated, e.g. 1/10, 2/10 etc.
+sequence_counter = Label(root, text=str(counter + 1) + "/10", font=("Arial", 20, "bold"))
+sequence_counter.pack(padx=10, pady=10)  # Add padding
 
-# Calculate position coordinates
-position_top = int(screen_height / 2 - window_height / 2)
-position_right = int(screen_width / 2 - window_width / 2)
+# Set the placeholder for the word to be translated
+word_to_translate = Label(root, text=current_lesson[counter][2], font=("Arial", 16, "bold"))
+word_to_translate.pack(padx=10, pady=10)  # Add padding
 
-# Position the window in the center of the screen
-root.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
+# Create an input field (Entry)
+input_field = tk.Entry(root)
+# Add the input field to the window
+input_field.pack(padx=10, pady=10)
 
-input_var = StringVar()
+# Set the functionality behind the button
+button = tk.Button(root, text="Verify", command=action_on_submit)
+# Add the button to the window
+button.pack()
 
-while i < 9:
-    # this block controls the sequence, e.g. 1/10, 2/10 etc.
-    input_label = Label(root, text = str(i+1) + "/10", font=("Arial", 20, "bold"))
-    input_label.pack(padx=5, pady=5)  # Add padding
-
-# This controls the word for which I need to provide the translation
-    input_label = Label(root, text=current_lesson[i][2], font=("Arial", 16, "bold"))
-    input_label.pack(padx=5, pady=5)  # Add padding
-
-input_label = Label(root, text="Provide the translation for the word:")
-input_label.pack(padx=5, pady=15)  # Add padding
-
-input_entry = Entry(root, textvariable=input_var)
-input_entry.pack(padx=20, pady=20)  # Add padding
-
-submit_button = tk.Button(root, text="Submit", command=submit)
-submit_button.pack()
-
-#root.bind('<Return>', get_input)
-
+# If you don't call root.mainloop() in your Tkinter application, the window will open and then immediately close,
+# because there's nothing telling the program to keep the window open.
+# So it's usually the last line in a simple Tkinter application.
 root.mainloop()
-
-
-
-
-
-
-
