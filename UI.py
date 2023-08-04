@@ -5,10 +5,9 @@ from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 import data_managemen as dm
 
 counter = 0
-
 current_lesson = dm.the_words_for_the_lesson()
 
-def action_on_submit():
+def action_on_submit(event=None):
     global counter
     entered_value = input_field.get()
     if entered_value.lower() == current_lesson[counter][3]:
@@ -18,7 +17,6 @@ def action_on_submit():
     sequence.set(str(counter + 1) + "/10".format(counter))
     if counter >= 10:
         print("Lesson is over")
-
     counter += 1
 
 
@@ -43,7 +41,7 @@ root.title("Let's Learn English Words")
 window = MainWindow(root)
 
 # Set the placeholder for the counter of the word to be translated, e.g. 1/10, 2/10 etc.
-sequence = Label(root, text=str(counter + 1) + "/10", font=("Arial", 20, "bold"))
+sequence = Label(root, text=str(counter+1)+"/10", font=("Arial", 20, "bold"))
 sequence.pack(padx=10, pady=10)  # Add padding
 
 # Set the placeholder for the word to be translated
@@ -51,9 +49,11 @@ word_to_translate = Label(root, text=current_lesson[counter][2], font=("Arial", 
 word_to_translate.pack(padx=10, pady=10)  # Add padding
 
 # Create an input field (Entry)
-input_field = tk.Entry(root)
+input_field = Entry(root)
 # Add the input field to the window
 input_field.pack(padx=10, pady=10)
+input_field.bind('<Return>',action_on_submit)
+
 
 # Set the functionality behind the button
 button = tk.Button(root, text="Verify", command=action_on_submit)
