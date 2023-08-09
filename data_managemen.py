@@ -14,8 +14,10 @@ existing_columns_set = set(df_add_new_column_if_doesnt_exist.columns)
 for index, col_name in enumerate(column_names):
     if col_name not in existing_columns_set:
         df_add_new_column_if_doesnt_exist = df_add_new_column_if_doesnt_exist.rename(
-                columns={df_add_new_column_if_doesnt_exist.columns[index]: column_names[index]})
+            columns={df_add_new_column_if_doesnt_exist.columns[index]: column_names[index]})
 df_add_new_column_if_doesnt_exist.to_csv(copy_file, index=False, header=True)
+
+
 # If you want to save the DataFrame after renaming columns, you should add:
 # df.to_csv(copy_file, index=False, header=True)
 
@@ -35,16 +37,16 @@ def check_if_indexes__are_present():
         print("CSV file has NO index row.")
 
 
-# Store the original number of rows
+# Store the original number of rows so that to clear against cleared dataframe
 original_rows = df_add_new_column_if_doesnt_exist.shape[0]
 df_remove_duplicate = pd.read_csv(copy_file, header=None)
 # remove duplicated rows based on the 3rd column
-# Split the data into two dataframes
+# Split the data into two dataframes so that to compare then later once we clear one of the dataframes
 # df1 contains rows with non-empty values in the 4th column
 df1 = df_remove_duplicate[df_remove_duplicate[df_remove_duplicate.columns[4]].notna()]
 # df2 contains rows with empty values in the 4th column
 df2 = df_remove_duplicate[df_remove_duplicate[df_remove_duplicate.columns[4]].isna()]
-# Remove duplicates in df2 based on the 3rd column
+# Remove duplicates in df2 based on the 3rd column where we have "words_from"
 df2 = df2.drop_duplicates(subset=df_remove_duplicate.columns[2])
 # Concatenate df1 and df2 to get the final dataframe
 df = pd.concat([df1, df2])
@@ -56,12 +58,13 @@ removed_duplicates = original_rows - df.shape[0]
 print(f'Removed {removed_duplicates} duplicates')
 
 
+# This function defines the set of 10 words for the lesson
 def the_words_for_the_lesson():
     df = pd.read_csv(copy_file)
     list_dictionary = df.values.tolist()
-
     # construct a dictionary where the second element of each sub-list is the key
     # if a key repeats, the value gets overwritten, effectively removing duplicates
+
     unique_dict = {item[2]: item for item in list_dictionary}
 
     translations_without_duplicates = list(unique_dict.values())
@@ -88,3 +91,6 @@ def the_words_for_the_lesson():
     while i < 10:
         i = i + 1
     return current_lesson
+
+
+print(the_words_for_the_lesson())
