@@ -7,15 +7,17 @@ column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_
 
 # load the CSV file
 df_add_new_column_if_doesnt_exist = pd.read_csv(original_file, header=None, index_col=False)
-for each in column_names:
-    if each not in df_add_new_column_if_doesnt_exist.columns:
-        index = column_names.index(each)
-        try:
-            df_add_new_column_if_doesnt_exist = df_add_new_column_if_doesnt_exist.rename(
+if 'number_of_completed_translations' not in df_add_new_column_if_doesnt_exist.columns:
+    df_add_new_column_if_doesnt_exist['number_of_completed_translations'] = None
+# Create a set of columns for O(1) lookup
+existing_columns_set = set(df_add_new_column_if_doesnt_exist.columns)
+for index, col_name in enumerate(column_names):
+    if col_name not in existing_columns_set:
+        df_add_new_column_if_doesnt_exist = df_add_new_column_if_doesnt_exist.rename(
                 columns={df_add_new_column_if_doesnt_exist.columns[index]: column_names[index]})
-        except IndexError as e:
-            df_add_new_column_if_doesnt_exist['number_of_completed_translations'] = None
 df_add_new_column_if_doesnt_exist.to_csv(copy_file, index=False, header=True)
+# If you want to save the DataFrame after renaming columns, you should add:
+# df.to_csv(copy_file, index=False, header=True)
 
 
 def check_if_indexes__are_present():
