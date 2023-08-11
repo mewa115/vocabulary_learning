@@ -60,11 +60,15 @@ class MainWindow:
 
         self.results_positive = tk.Label(root, text="", fg="green")
         self.results_positive.pack(pady=10, padx=1)
+
         self.results_negative = tk.Label(root, text="", fg="red")
         self.results_negative.pack(pady=1, padx=1)
 
-        self.close_app = tk.Button(root, text="Close App", command=self.close_app)
-        self.new_lesson = tk.Button(root, text="Start New Lesson", command=self.new_lesson)
+        self.close_app_button = tk.Button(root, text="Close App", command=self.close_app)
+        self.close_app_button.bind("<Return>", lambda event=None: self.close_app())
+
+        self.new_lesson_button = tk.Button(root, text="Start New Lesson", command=self.new_lesson)
+        self.new_lesson_button.bind("<Return>", lambda event=None: self.new_lesson)
 
     def create_input_field(self):
         # Create an input field (Entry)
@@ -114,16 +118,16 @@ class MainWindow:
             self.input_field.destroy()
             self.verify_button.destroy()
             self.next_button.destroy()
-            self.new_lesson.focus_set()
+            self.new_lesson_button.focus_set()
             self.msg_label_positive.destroy()
             self.msg_label_negative.destroy()
             # Use pack to place buttons at the bottom
             self.results_positive.config(text="Right answers - " + str(self.right_answers) + "/10")
             self.results_negative.config(text="Wrong answers - " + str(self.wrong_answers) + "/10")
 
-            self.close_app.pack(padx=5, pady=10)
-            self.new_lesson.pack(padx=5, pady=5)
-            self.new_lesson.focus_set()
+            self.close_app_button.pack(padx=5, pady=10)
+            self.new_lesson_button.pack(padx=5, pady=5)
+            self.new_lesson_button.focus_set()
 
     def close_app(self):
         root.destroy()
