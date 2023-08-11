@@ -1,9 +1,9 @@
 import tkinter as tk
 import re
-import data_managemen as dm
+import pick_up_words_for_the_lesson as pk
 from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 
-current_lesson = dm.the_words_for_the_lesson()
+current_lesson = pk.the_words_for_the_lesson()
 
 
 # This class defines the default CSS characteristics of the main window
@@ -90,6 +90,16 @@ class MainWindow:
             if re.search(value, current_lesson[self.counter][3]):
                 self.msg_label_positive.config(text="It is correct!" + " " + current_lesson[self.counter][3])
                 self.right_answers = self.right_answers + 1
+                # take the number of correct translations from previous lessons
+
+
+
+                historical_number_of_right_translations = \
+                pk.df_all_words_from_update_csv_file[current_lesson[self.counter]][4]
+                new_number_of_right_translations = historical_number_of_right_translations + 1
+                # update dataframe with the new number of correctly translated transactions
+                pk.loc[0, 'B'] = new_number_of_right_translations
+
             else:
                 self.msg_label_negative.config(text="It is incorrect!" + " " + current_lesson[self.counter][3])
                 self.wrong_answers = self.wrong_answers + 1
