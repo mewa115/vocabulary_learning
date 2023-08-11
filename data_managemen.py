@@ -37,6 +37,8 @@ def check_if_indexes__are_present():
         print("CSV file has NO index row.")
 
 
+check_if_indexes__are_present()
+
 # Store the original number of rows so that to clear against cleared dataframe
 original_rows = df_add_new_column_if_doesnt_exist.shape[0]
 df_remove_duplicate = pd.read_csv(copy_file, header=None)

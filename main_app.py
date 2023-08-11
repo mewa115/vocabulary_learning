@@ -3,13 +3,15 @@ import re
 import data_managemen as dm
 from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 
-
 current_lesson = dm.the_words_for_the_lesson()
 
 
 # This class defines the default CSS characteristics of the main window
 class MainWindow:
     counter = 0
+    right_answers = 0
+    wrong_answers = 0
+
     def __init__(self, root, width=400, height=400):
         self.root = root
         # Set the title of the window
@@ -26,10 +28,10 @@ class MainWindow:
         self.sequence_number = tk.Label(root, text=str(self.counter + 1) + "/10", font=("Arial", 20, "bold"))
         self.sequence_number.pack(padx=10, pady=10)  # Add padding
 
-        self.word_to_translate = Label(root, text=current_lesson[self.counter][2] + " -> " + current_lesson[self.counter][1],
+        self.word_to_translate = Label(root,
+                                       text=current_lesson[self.counter][2] + " -> " + current_lesson[self.counter][1],
                                        font=("Arial", 16, "bold"))
         self.word_to_translate.pack(padx=10, pady=10)  # Add padding
-
 
         # Create an input field (Entry)
         self.input_field = Entry(root)
@@ -37,9 +39,6 @@ class MainWindow:
         self.input_field.pack(padx=5, pady=1)
         self.input_field.bind("<Return>", lambda event=None: self.verify_input())
         self.input_field.focus_set()
-
-
-
 
         # Create a frame to contain the buttons
         frame = tk.Frame(root)
@@ -49,6 +48,7 @@ class MainWindow:
         # Use pack to place buttons at the bottom
         self.verify_button.pack(padx=5, pady=10)
         self.next_button.pack(padx=5, pady=5)
+
         # Binding the Enter key to the button's action
         self.next_button.bind("<Return>", lambda event=None: self.next_word())
         self.verify_button.bind("<Return>", lambda event=None: self.verify_input())
@@ -58,8 +58,14 @@ class MainWindow:
         self.msg_label_negative = tk.Label(root, text="", fg="red")
         self.msg_label_negative.pack(pady=5)
 
+        self.results_positive = tk.Label(root, text="", fg="green")
+        self.results_positive.pack(pady=10, padx=1)
+        self.results_negative = tk.Label(root, text="", fg="red")
+        self.results_negative.pack(pady=1, padx=1)
+
         self.close_app = tk.Button(root, text="Close App", command=self.close_app)
         self.new_lesson = tk.Button(root, text="Start New Lesson", command=self.new_lesson)
+        self.new_lesson.bind("<Return>", lambda event=None: self.new_lesson)
 
     def create_input_field(self):
         # Create an input field (Entry)
@@ -73,25 +79,28 @@ class MainWindow:
         # Example: Checking the value against a predefined value
         # Check if content is empty
         if not value.strip():
+            self.wrong_answers = self.wrong_answers + 1
             self.msg_label_negative.config(text=current_lesson[self.counter][3])
             self.verify_button.config(state='disabled')
             self.next_button.focus_set()
         else:
-            if re.search(value, current_lesson[counter][3]):
-                self.msg_label_positive.config(text="It is correct!" + " " + current_lesson[counter][3])
+            if re.search(value, current_lesson[self.counter][3]):
+                self.msg_label_positive.config(text="It is correct!" + " " + current_lesson[self.counter][3])
+                self.right_answers = self.right_answers + 1
             else:
-                self.msg_label_negative.config(text="It is incorrect!" + " " + current_lesson[counter][3])
+                self.msg_label_negative.config(text="It is incorrect!" + " " + current_lesson[self.counter][3])
+                self.wrong_answers = self.wrong_answers + 1
             self.verify_button.config(state='disabled')
             self.next_button.focus_set()
 
     def next_word(self):
-        global counter
         self.verify_button.config(state='normal')
         if self.counter < 9:
             self.counter += 1
             self.sequence_number.config(text=str(self.counter + 1) + "/10", font=("Arial", 20, "bold"))
-            self.word_to_translate.config(text=current_lesson[self.counter][2] + " -> " + current_lesson[self.counter][1],
-                                          font=("Arial", 16, "bold"))
+            self.word_to_translate.config(
+                text=current_lesson[self.counter][2] + " -> " + current_lesson[self.counter][1],
+                font=("Arial", 16, "bold"))
             self.msg_label_positive.config(text="")
             self.msg_label_negative.config(text="")
             self.input_field.delete(0, tk.END)
@@ -106,27 +115,28 @@ class MainWindow:
             self.msg_label_positive.destroy()
             self.msg_label_negative.destroy()
             # Use pack to place buttons at the bottom
+            self.results_positive.config(text="Right answers - " + str(self.right_answers) + "/10")
+            self.results_negative.config(text="Wrong answers - " + str(self.wrong_answers) + "/10")
+
             self.close_app.pack(padx=5, pady=10)
             self.new_lesson.pack(padx=5, pady=5)
 
     def close_app(self):
-        root.destroy()
+        self.destroy()
 
     def new_lesson(self):
         self.close_app.destroy()
         self.new_lesson.destroy()
         counter = 0
+        right_answers = 0
+        wrong_answers = 0
         MainWindow(root)
-
-
 
 
 # Create the main window
 root = tk.Tk()
 window = MainWindow(root)
 root.mainloop()
-
-
 
 # If you don't call root.mainloop() in your Tkinter application, the window will open and then immediately close,
 # because there's nothing telling the program to keep the window open.
