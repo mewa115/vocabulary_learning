@@ -65,7 +65,6 @@ class MainWindow:
 
         self.close_app = tk.Button(root, text="Close App", command=self.close_app)
         self.new_lesson = tk.Button(root, text="Start New Lesson", command=self.new_lesson)
-        self.new_lesson.bind("<Return>", lambda event=None: self.new_lesson)
 
     def create_input_field(self):
         # Create an input field (Entry)
@@ -95,6 +94,10 @@ class MainWindow:
 
     def next_word(self):
         self.verify_button.config(state='normal')
+        # Example: Checking the value against a predefined value
+        # Check if content is empty
+        if not self.input_field.get().strip():
+            self.wrong_answers = self.wrong_answers + 1
         if self.counter < 9:
             self.counter += 1
             self.sequence_number.config(text=str(self.counter + 1) + "/10", font=("Arial", 20, "bold"))
@@ -120,9 +123,10 @@ class MainWindow:
 
             self.close_app.pack(padx=5, pady=10)
             self.new_lesson.pack(padx=5, pady=5)
+            self.new_lesson.focus_set()
 
     def close_app(self):
-        self.destroy()
+        root.destroy()
 
     def new_lesson(self):
         self.close_app.destroy()
