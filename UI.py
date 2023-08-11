@@ -38,6 +38,8 @@ class MainWindow:
         self.input_field.bind("<Return>", lambda event=None: self.verify_input())
         self.input_field.focus_set()
 
+
+
         # Create a frame to contain the buttons
         frame = tk.Frame(root)
         # Create two buttons
