@@ -94,6 +94,8 @@ class MainWindow:
 
 
 
+
+
                 historical_number_of_right_translations = \
                 pk.df_all_words_from_update_csv_file[current_lesson[self.counter]][4]
                 new_number_of_right_translations = historical_number_of_right_translations + 1
@@ -105,6 +107,8 @@ class MainWindow:
                 self.wrong_answers = self.wrong_answers + 1
             self.verify_button.config(state='disabled')
             self.next_button.focus_set()
+
+
 
     def next_word(self):
         self.verify_button.config(state='normal')
