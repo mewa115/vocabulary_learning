@@ -9,7 +9,7 @@ column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_
 # load the CSV file.
 df_add_new_column_if_doesnt_exist = pd.read_csv(original_file, header=0, index_col=False)
 if 'number_of_completed_translations' not in df_add_new_column_if_doesnt_exist.columns:
-    df_add_new_column_if_doesnt_exist['number_of_completed_translations'] = None
+    df_add_new_column_if_doesnt_exist['number_of_completed_translations'] = 0
 # Create a set of columns for O(1) lookup
 existing_columns_set = set(df_add_new_column_if_doesnt_exist.columns)
 for index, col_name in enumerate(column_names):
