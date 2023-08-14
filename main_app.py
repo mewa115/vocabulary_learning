@@ -53,9 +53,13 @@ class MainWindow:
         self.verify_button.bind("<Return>", lambda event=None: self.verify_input())
 
         self.msg_label_positive = tk.Label(root, text="", fg="green")
-        self.msg_label_positive.pack(pady=1)
+        self.msg_label_positive.pack()
         self.msg_label_negative = tk.Label(root, text="", fg="red")
-        self.msg_label_negative.pack(pady=5)
+        self.msg_label_negative.pack()
+
+        self.abort_the_lesson = tk.Button(root, text="Abort the lesson", command=self.close_app)
+        self.abort_the_lesson.pack()
+        self.abort_the_lesson.bind("<Return>", lambda event=None: self.close_app())
 
         self.results_positive = tk.Label(root, text="", fg="green")
         self.results_positive.pack(pady=10, padx=1)
@@ -97,7 +101,6 @@ class MainWindow:
                 pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file['word_from'] == english_word_to_find, 'number_of_completed_translations'] = new_number_of_right_translations
             else:
                 self.msg_label_negative.config(text="It is incorrect!" + " " + current_lesson[self.counter][3])
-                print("wrong", self.wrong_answers)
                 self.wrong_answers = self.wrong_answers + 1
             self.verify_button.config(state='disabled')
             self.next_button.focus_set()
