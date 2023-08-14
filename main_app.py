@@ -82,7 +82,6 @@ class MainWindow:
         # Check if content is empty
         if not value.strip():
             self.wrong_answers = self.wrong_answers + 1
-            print("not value.strip",self.wrong_answers)
             self.msg_label_negative.config(text=current_lesson[self.counter][3])
             self.verify_button.config(state='disabled')
             self.next_button.focus_set()
