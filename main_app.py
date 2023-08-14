@@ -5,7 +5,6 @@ from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 
 current_lesson = pk.the_words_for_the_lesson()
 
-
 # This class defines the default CSS characteristics of the main window
 class MainWindow:
     counter = 0
@@ -90,26 +89,26 @@ class MainWindow:
             if re.search(value, current_lesson[self.counter][3]):
                 self.msg_label_positive.config(text="It is correct!" + " " + current_lesson[self.counter][3])
                 self.right_answers = self.right_answers + 1
+
                 # take the number of correct translations from previous lessons
+                english_word_to_find = current_lesson[int(self.counter)][2]
 
 
-
-
-
-                historical_number_of_right_translations = \
-                pk.df_all_words_from_update_csv_file[current_lesson[self.counter]][4]
+                print(pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file['word_from'] == english_word_to_find, 4])
+                historical_number_of_right_translations = pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file['word_from'] == english_word_to_find, 4]
                 new_number_of_right_translations = historical_number_of_right_translations + 1
-                # update dataframe with the new number of correctly translated transactions
-                pk.loc[0, 'B'] = new_number_of_right_translations
+                print(new_number_of_right_translations)
 
+                # # update dataframe with the new number of correctly translated transactions
+                #
+                #
+                # pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file['word_from'] == english_word_to_find, 'number_of_completed_translations'] = new_number_of_right_translations
+                # pk.df_all_words_from_update_csv_file.to_csv('test_lesson', index= False, header=True)
             else:
                 self.msg_label_negative.config(text="It is incorrect!" + " " + current_lesson[self.counter][3])
                 self.wrong_answers = self.wrong_answers + 1
             self.verify_button.config(state='disabled')
             self.next_button.focus_set()
-
-
-
     def next_word(self):
         self.verify_button.config(state='normal')
         # Example: Checking the value against a predefined value

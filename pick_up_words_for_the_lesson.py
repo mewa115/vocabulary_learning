@@ -3,17 +3,12 @@ import random
 import file_preparation as fp
 
 # prepare the data_frame
-df_all_words_from_update_csv_file = pd.read_csv(fp.original_file)
-
-
-
-# Check if the file is ready for the use
-
+df_all_words_from_update_csv_file = pd.read_csv(fp.copy_file)
 
 
 # This function defines the set of 10 words for the lesson
 def the_words_for_the_lesson():
-    df = pd.read_csv(fp.original_file)
+    df = pd.read_csv(fp.copy_file)
     list_dictionary = df.values.tolist()
     # construct a dictionary where the second element of each sub-list is the key
     # if a key repeats, the value gets overwritten, effectively removing duplicates
@@ -46,3 +41,7 @@ def the_words_for_the_lesson():
     return current_lesson
 
 
+df_all_words_from_update_csv_file.loc[
+    df_all_words_from_update_csv_file['word_from'] == 'Zusatzpanzerung', 'number_of_completed_translations'] = 3
+
+df_all_words_from_update_csv_file.to_csv('test.csv', header=0, index=False)
