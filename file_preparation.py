@@ -3,7 +3,7 @@ import random
 
 original_file = 'Saved_translations_orig.csv'
 copy_file = 'Saved_translations_copy.csv'
-column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations']
+column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations', 'currently_studying']
 
 
 # load the CSV file.
@@ -20,7 +20,6 @@ df_add_new_column_if_doesnt_exist.to_csv(copy_file, index=False, header=True)
 
 # Remove the data from the variable, which was used to store the datafrome from the original file.
 del df_add_new_column_if_doesnt_exist
-
 
 def check_if_indexes__are_present():
     # Load the CSV file into a DataFrame
