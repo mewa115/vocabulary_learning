@@ -12,7 +12,10 @@ if 'number_of_completed_translations' not in df_add_new_column_if_doesnt_exist.c
     df_add_new_column_if_doesnt_exist['number_of_completed_translations'] = 0
 # Create a set of columns for O(1) lookup
 existing_columns_set = set(df_add_new_column_if_doesnt_exist.columns)
+if 'currently_studying' not in df_add_new_column_if_doesnt_exist.columns:
+    df_add_new_column_if_doesnt_exist['currently_studying'] = False
 for index, col_name in enumerate(column_names):
+    print("index is", index, 'and col_name is', col_name)
     if col_name not in existing_columns_set:
         df_add_new_column_if_doesnt_exist = df_add_new_column_if_doesnt_exist.rename(
             columns={df_add_new_column_if_doesnt_exist.columns[index]: column_names[index]})
