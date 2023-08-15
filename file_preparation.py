@@ -3,8 +3,8 @@ import random
 
 original_file = 'Saved_translations_orig.csv'
 copy_file = 'Saved_translations_copy.csv'
-column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations', 'currently_studying']
-
+column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations',\
+                'currently_studying', 'already_learned']
 
 # load the CSV file.
 df_add_new_column_if_doesnt_exist = pd.read_csv(original_file, header=0, index_col=False)
@@ -14,15 +14,18 @@ if 'number_of_completed_translations' not in df_add_new_column_if_doesnt_exist.c
 existing_columns_set = set(df_add_new_column_if_doesnt_exist.columns)
 if 'currently_studying' not in df_add_new_column_if_doesnt_exist.columns:
     df_add_new_column_if_doesnt_exist['currently_studying'] = False
+if 'already_learned' not in df_add_new_column_if_doesnt_exist.columns:
+    df_add_new_column_if_doesnt_exist['already_learned'] = False
+
 for index, col_name in enumerate(column_names):
-    print("index is", index, 'and col_name is', col_name)
     if col_name not in existing_columns_set:
         df_add_new_column_if_doesnt_exist = df_add_new_column_if_doesnt_exist.rename(
             columns={df_add_new_column_if_doesnt_exist.columns[index]: column_names[index]})
 df_add_new_column_if_doesnt_exist.to_csv(copy_file, index=False, header=True)
 
 # Remove the data from the variable, which was used to store the datafrome from the original file.
-del df_add_new_column_if_doesnt_exist
+
+
 
 def check_if_indexes__are_present():
     # Load the CSV file into a DataFrame
@@ -38,8 +41,8 @@ def check_if_indexes__are_present():
     else:
         print("CSV file has NO index row.")
 
-df_remove_duplicate = pd.read_csv(copy_file, header=None, index_col=False)
 
+df_remove_duplicate = pd.read_csv(copy_file, header=None, index_col=False)
 
 # Store the original number of rows so that to clear against cleared dataframe
 original_rows = df_remove_duplicate.shape[0]
@@ -58,4 +61,7 @@ df = pd.concat([df1, df2])
 df.to_csv(copy_file, index=False, header=False)
 # Calculate and print the number of removed duplicates
 removed_duplicates = original_rows - df.shape[0]
-print(f'Removed {removed_duplicates} duplicates')
+if removed_duplicates != 0:
+    print(f'Removed {removed_duplicates} duplicates')
+
+del df, df1, df2, removed_duplicates, df_remove_duplicate, original_rows, df_add_new_column_if_doesnt_exist
