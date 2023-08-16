@@ -1,6 +1,7 @@
 import tkinter as tk
 import re
 import pick_up_words_for_the_lesson as pk
+import select_currently_studying_words as sl
 from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 
 current_lesson = pk.the_words_for_the_lesson()
@@ -71,7 +72,7 @@ class MainWindow:
         self.close_app_button.bind("<Return>", lambda event=None: self.close_app())
 
         self.new_lesson_button = tk.Button(root, text="Start New Lesson", command=self.new_lesson)
-        self.new_lesson_button.bind("<Return>", lambda event=None: self.new_lesson)
+        self.new_lesson_button.bind("<Return>", lambda event=None: self.new_lesson())
 
     def create_input_field(self):
         # Create an input field (Entry)
@@ -124,6 +125,7 @@ class MainWindow:
             self.input_field.destroy()
             self.verify_button.destroy()
             self.next_button.destroy()
+            self.abort_the_lesson.destroy()
             self.new_lesson_button.focus_set()
             self.msg_label_positive.destroy()
             self.msg_label_negative.destroy()
@@ -136,9 +138,11 @@ class MainWindow:
 
     def close_app(self):
         pk.df_all_words_from_update_csv_file.to_csv('test_lesson.csv', index=False, header=True)
+        sl.update_the_list_of_learning_words()
         root.destroy()
 
     def new_lesson(self):
+        sl.update_the_list_of_learning_words()
         self.close_app.destroy()
         self.new_lesson.destroy()
         counter = 0
