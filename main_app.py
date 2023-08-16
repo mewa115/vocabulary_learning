@@ -100,6 +100,11 @@ class MainWindow:
                 new_number_of_right_translations = historical_number_of_right_translations + 1
                 # update dataframe with the new number of correctly translated transactions
                 pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file['word_from'] == english_word_to_find, 'number_of_completed_translations'] = new_number_of_right_translations
+                if new_number_of_right_translations == 10:
+                    pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file[
+                                                                 'word_from'] == english_word_to_find, 'already_learned'] = True
+                    pk.df_all_words_from_update_csv_file.loc[pk.df_all_words_from_update_csv_file[
+                                                         'word_from'] == english_word_to_find, 'currently_studying'] = False
             else:
                 self.msg_label_negative.config(text="It is incorrect!" + " " + current_lesson[self.counter][3])
                 self.wrong_answers = self.wrong_answers + 1
