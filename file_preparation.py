@@ -6,28 +6,30 @@ copy_file = 'Saved_translations_copy.csv'
 column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations',\
                 'currently_studying', 'already_learned']
 
-# load the CSV file.
-df_add_new_column_if_doesnt_exist = pd.read_csv(original_file, header=0, index_col=False)
-if 'number_of_completed_translations' not in df_add_new_column_if_doesnt_exist.columns:
-    df_add_new_column_if_doesnt_exist['number_of_completed_translations'] = 0
-# Create a set of columns for O(1) lookup
-existing_columns_set = set(df_add_new_column_if_doesnt_exist.columns)
-if 'currently_studying' not in df_add_new_column_if_doesnt_exist.columns:
-    df_add_new_column_if_doesnt_exist['currently_studying'] = False
-if 'already_learned' not in df_add_new_column_if_doesnt_exist.columns:
-    df_add_new_column_if_doesnt_exist['already_learned'] = False
+df_file_preparation = pd.read_csv(original_file, header=0, index_col=False)
 
-for index, col_name in enumerate(column_names):
-    if col_name not in existing_columns_set:
-        df_add_new_column_if_doesnt_exist = df_add_new_column_if_doesnt_exist.rename(
-            columns={df_add_new_column_if_doesnt_exist.columns[index]: column_names[index]})
-df_add_new_column_if_doesnt_exist.to_csv(copy_file, index=False, header=True)
+
+def add_missing_columns(df_file_preparation):
+    # load the CSV file.
+    if 'number_of_completed_translations' not in df_file_preparation.columns:
+        df_file_preparation['number_of_completed_translations'] = 0
+    # Create a set of columns for O(1) lookup
+    existing_columns_set = set(df_file_preparation.columns)
+    if 'currently_studying' not in df_file_preparation.columns:
+        df_file_preparation['currently_studying'] = False
+    if 'already_learned' not in df_file_preparation.columns:
+        df_file_preparation['already_learned'] = False
+
+    for index, col_name in enumerate(column_names):
+        if col_name not in existing_columns_set:
+            df_file_preparation = df_file_preparation.rename(
+                columns={df_file_preparation.columns[index]: column_names[index]})
+    df_file_preparation.to_csv(copy_file, index=False, header=True)
 
 # Remove the data from the variable, which was used to store the datafrome from the original file.
 
 
-
-def check_if_indexes__are_present():
+def check_if_indexes__are_present(original_file):
     # Load the CSV file into a DataFrame
     df_index_check = pd.read_csv(original_file)
     # Check for index column
@@ -41,6 +43,7 @@ def check_if_indexes__are_present():
     else:
         print("CSV file has NO index row.")
 
+add_missing_columns(df_file_preparation)
 
 df_remove_duplicate = pd.read_csv(copy_file, header=None, index_col=False)
 
@@ -64,4 +67,4 @@ removed_duplicates = original_rows - df.shape[0]
 if removed_duplicates != 0:
     print(f'Removed {removed_duplicates} duplicates')
 
-del df, df1, df2, removed_duplicates, df_remove_duplicate, original_rows, df_add_new_column_if_doesnt_exist
+del df, df1, df2, removed_duplicates, df_remove_duplicate, original_rows

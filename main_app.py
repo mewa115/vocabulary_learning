@@ -1,6 +1,6 @@
 import tkinter as tk
 import re
-import pick_up_words_for_the_lesson as pk
+import pick_up_words_for_the_current_lesson as pk
 import select_currently_studying_words as sl
 from tkinter import Tk, Entry, Button, Label, StringVar, messagebox
 

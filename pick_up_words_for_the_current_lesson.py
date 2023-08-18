@@ -1,20 +1,17 @@
 import pandas as pd
 import random
-import file_preparation as fp
+#import file_preparation as fp
 
-# prepare the data_frame
-df_all_words_from_update_csv_file = pd.read_csv(fp.copy_file)
-
+copy_file = 'Saved_translations_copy.csv'
 
 # This function defines the set of 10 words for the lesson
 def the_words_for_the_lesson():
-    df = pd.read_csv(fp.copy_file)
-    list_dictionary = df.values.tolist()
+    df_the_words_for_the_lesson = pd.read_csv(copy_file, index_col=False, header=0)
+    list_dictionary = df_the_words_for_the_lesson.values.tolist()
     # construct a dictionary where the second element of each sub-list is the key
     # if a key repeats, the value gets overwritten, effectively removing duplicates
-
     unique_dict = {item[2]: item for item in list_dictionary}
-
+#    print(unique_dict)
     translations_without_duplicates = list(unique_dict.values())
 
     # declare a list in which I would store list of 10 numbers, which would serve as indexes for the words to pick up
@@ -31,7 +28,6 @@ def the_words_for_the_lesson():
         random_numbers_list.append(random_number)
         i = i + 1
     current_lesson = list()
-
     # find the translation using the index, which was generated randomly.
     for each in random_numbers_list:
         current_lesson.append(translations_without_duplicates[each])
@@ -41,7 +37,12 @@ def the_words_for_the_lesson():
     return current_lesson
 
 
-df_all_words_from_update_csv_file.loc[
-    df_all_words_from_update_csv_file['word_from'] == 'Zusatzpanzerung', 'number_of_completed_translations'] = 3
+the_words_for_the_lesson()
 
-df_all_words_from_update_csv_file.to_csv('test.csv', header=0, index=False)
+# prepare the data_frame
+#df_pick_up_words_for_the_lesson = pd.read_csv(copy_file)
+
+#df_pick_up_words_for_the_lesson.loc[
+#    df_pick_up_words_for_the_lesson['word_from'] == 'Zusatzpanzerung', 'number_of_completed_translations'] = 3
+
+#df_pick_up_words_for_the_lesson.to_csv('test.csv', header=0, index=False)
