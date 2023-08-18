@@ -7,6 +7,7 @@ column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_
                 'currently_studying', 'already_learned']
 df_file_preparation = pd.read_csv(original_file, header=0, index_col=False)
 
+
 def file_preparation(df_file_preparation, copy_file):
     if os.path.exists(copy_file):
         print('Skipped preparation... The file is already prepared')
@@ -24,7 +25,7 @@ def file_preparation(df_file_preparation, copy_file):
                 if col_name not in existing_columns_set:
                     df_file_preparation = df_file_preparation.rename(
                         columns={df_file_preparation.columns[index]: column_names[index]})
-            return  df_file_preparation
+            return df_file_preparation
 
         def check_if_indexes__are_present(df_file_preparation):
             # Check for index column
@@ -47,16 +48,9 @@ def file_preparation(df_file_preparation, copy_file):
             df_file_preparation = list(unique_dict.values())
             return df_file_preparation
 
-
         add_missing_columns(df_file_preparation)
         remove_duplicates(df_file_preparation)
 
         df_file_preparation.to_csv(copy_file, index=False, header=True)
         print("Preparation's been completed!")
-
-
-
-
-
-
-
+        del df_file_preparation
