@@ -1,14 +1,13 @@
 import pandas as pd
 import os
 
-original_file = 'Saved_translations_orig.csv'
-copy_file = 'Saved_translations_copy.csv'
-column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations', \
-                'currently_studying', 'already_learned']
-df_file_preparation = pd.read_csv(original_file, header=0, index_col=False)
 
-
-def file_preparation(df_file_preparation, copy_file):
+def file_preparation():
+    original_file = 'Saved_translations_orig.csv'
+    copy_file = 'Saved_translations_copy.csv'
+    column_names = ['language_from', 'language_to', 'word_from', 'word_to', 'number_of_completed_translations', \
+                    'currently_studying', 'already_learned']
+    df_file_preparation = pd.read_csv(original_file, header=0, index_col=False)
     if os.path.exists(copy_file):
         print('Skipped preparation... The file is already prepared')
     else:
@@ -53,4 +52,4 @@ def file_preparation(df_file_preparation, copy_file):
 
         df_file_preparation.to_csv(copy_file, index=False, header=True)
         print("Preparation's been completed!")
-        del df_file_preparation
+        return df_file_preparation

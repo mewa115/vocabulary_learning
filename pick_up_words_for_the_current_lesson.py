@@ -1,14 +1,10 @@
-import pandas as pd
 import random
-import file_preparation as fp
-import select_currently_studying_words as scw
+import select_currently_studying_words as sl
 
-
-
-copy_file = 'Saved_translations_copy.csv'
 
 # This function defines the set of 10 words for the lesson
 def the_words_for_the_lesson():
+    df_the_words_for_the_lesson = sl.update_the_list_of_learning_words()
     # declare a list in which I would store list of 10 numbers, which would serve as indexes for the words to pick up
     # for the current lesson
     i = 1
@@ -28,6 +24,3 @@ def the_words_for_the_lesson():
     i = 0
     while i < 10:
         i = i + 1
-
-
-the_words_for_the_lesson()
