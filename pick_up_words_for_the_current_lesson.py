@@ -1,18 +1,13 @@
 import pandas as pd
 import random
-#import file_preparation as fp
+import file_preparation as fp
+import select_currently_studying_words as scw
+
 
 copy_file = 'Saved_translations_copy.csv'
 
 # This function defines the set of 10 words for the lesson
 def the_words_for_the_lesson():
-    df_the_words_for_the_lesson = pd.read_csv(copy_file, index_col=False, header=0)
-    list_dictionary = df_the_words_for_the_lesson.values.tolist()
-    # construct a dictionary where the second element of each sub-list is the key
-    # if a key repeats, the value gets overwritten, effectively removing duplicates
-    unique_dict = {item[2]: item for item in list_dictionary}
-#    print(unique_dict)
-    translations_without_duplicates = list(unique_dict.values())
 
     # declare a list in which I would store list of 10 numbers, which would serve as indexes for the words to pick up
     # for the current lesson
@@ -34,7 +29,6 @@ def the_words_for_the_lesson():
     i = 0
     while i < 10:
         i = i + 1
-    return current_lesson
 
 
 the_words_for_the_lesson()

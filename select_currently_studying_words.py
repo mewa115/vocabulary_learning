@@ -8,7 +8,6 @@ copy_file = 'Saved_translations_copy.csv'
 df_select_currently_studying = pd.read_csv(copy_file, index_col=None, header=0)
 
 def update_the_list_of_learning_words():
-
     # get the list of indexes of all words in the file
     all_indexes = df_select_currently_studying.index.tolist()
     # get the list of indexes of currently studying words in the file
