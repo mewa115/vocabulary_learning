@@ -10,6 +10,7 @@ def file_preparation():
     df_file_preparation = pd.read_csv(original_file, header=0, index_col=False)
     if os.path.exists(copy_file):
         print('Skipped preparation... The file is already prepared')
+        df_file_preparation.to_csv(copy_file, index=True, header=True)
     else:
         def add_missing_columns(df_file_preparation):
             if 'number_of_completed_translations' not in df_file_preparation.columns:
@@ -51,6 +52,6 @@ def file_preparation():
         add_missing_columns(df_file_preparation)
         remove_duplicates(df_file_preparation)
 
-        df_file_preparation.to_csv(copy_file, index=False, header=True)
+        df_file_preparation.to_csv(copy_file, index=True, header=True)
         print("Preparation's been completed!")
         return df_file_preparation

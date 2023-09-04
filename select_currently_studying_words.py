@@ -7,7 +7,6 @@ def update_the_list_of_learning_words():
     df_select_currently_studying = fp.file_preparation()
     # get the list of indexes of all words in the file
     all_indexes = df_select_currently_studying.index.tolist()
-    print('all indexes are', all_indexes)
     # get the list of indexes of currently studying words in the file
     indexes_of_currently_studying_words = \
         df_select_currently_studying[df_select_currently_studying['currently_studying'] == True].index.tolist()
