@@ -38,6 +38,7 @@ def file_preparation():
             else:
                 print("CSV file has NO index row.")
 
+
         def remove_duplicates(df_file_preparation):
             list_dictionary = df_file_preparation.values.tolist()
             # construct a dictionary where the second element of each sub-list is the key

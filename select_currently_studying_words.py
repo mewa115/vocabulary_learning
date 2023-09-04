@@ -2,9 +2,6 @@ import pandas as pd
 import random
 import file_preparation as fp
 
-original_file = 'Saved_translations_orig.csv'
-copy_file = 'Saved_translations_copy.csv'
-
 
 def update_the_list_of_learning_words():
     df_select_currently_studying = fp.file_preparation()
@@ -23,7 +20,7 @@ def update_the_list_of_learning_words():
     # get the indexes of already learned words
     indexes_of_already_learned_words = df_select_currently_studying[
         df_select_currently_studying['already_learned'] == True].index.tolist()
-    print('indexes_of_already_learned_words', indexes_of_already_learned_words )
+    print('indexes_of_already_learned_words', indexes_of_already_learned_words)
 
     # calculate the total number of all learned words
     try:
@@ -36,7 +33,6 @@ def update_the_list_of_learning_words():
                                            x not in indexes_of_currently_studying_words and x not in indexes_of_already_learned_words]
     print('indexes_of_available_to_learn_words', indexes_of_available_to_learn_words)
 
-
     if count_the_indexes_of_currently_studying_words == 0:
         indexes_of_new_to_learn_words = random.sample(indexes_of_available_to_learn_words, 50)
         # pick random list of indexes of the words, which are available for learn
@@ -46,11 +42,7 @@ def update_the_list_of_learning_words():
         indexes_of_new_to_learn_words = random.sample(indexes_of_available_to_learn_words, 50 - (
                 count_of_already_learned_words + indexes_of_available_to_learn_words))
         for each in indexes_of_new_to_learn_words:
-            df_select_currently_studying[each,'currently_studying'] = True
-
-    df_select_currently_studying.to_csv(copy_file, header=0, index=None)
-    print('update has been completed')
-    print(df_select_currently_studying)
+            df_select_currently_studying[each, 'currently_studying'] = True
+#    df_select_currently_studying.to_csv(copy_file, header=0, index=None)
+    print('The list of the currently learned words has been completed')
     return df_select_currently_studying
-
-update_the_list_of_learning_words()
